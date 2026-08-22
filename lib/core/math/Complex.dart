@@ -20,7 +20,7 @@ class Complex {
     Complex operator *(Complex other) {
         return Complex(
             real * other.real - imag * other.imag,
-            real * other.imag - imag * other.real
+            real * other.imag + imag * other.real
         );
     }
 
