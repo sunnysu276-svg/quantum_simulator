@@ -1,0 +1,17 @@
+# .gitignore
+# Files and directories created by pub
+.dart_tool/
+.packages
+pubspec.lock
+build/
+
+# IDE specific files
+.vscode/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
