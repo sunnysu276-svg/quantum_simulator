@@ -38,4 +38,27 @@ void main() {
       expect(c.magnitudeSquared, equals(25.0));
     });
   });
+
+  group('Complex toFormattedString Tests', () {
+    test('Pure real number with zero imaginary part should format cleanly', () {
+      const c1 = Complex(1.0, 0.0);
+      const c0 = Complex(0.0, 0.0);
+
+      expect(c1.toFormattedString(), equals('1'));
+      expect(c0.toFormattedString(), equals('0'));
+    });
+
+    test('Pure imaginary number with zero real part should format with i', () {
+      const c = Complex(0.0, 1.0);
+      const cNeg = Complex(0.0, -1.0);
+
+      expect(c.toFormattedString(), equals('1i'));
+      expect(cNeg.toFormattedString(), equals('-1i'));
+    });
+
+    test('Mixed real and imaginary numbers should format as a + bi', () {
+      const c = Complex(0.7071, 0.7071);
+      expect(c.toFormattedString(fractionDigits: 3), equals('0.707 + 0.707i'));
+    });
+  });
 }

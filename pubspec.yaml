@@ -1,15 +1,21 @@
 name: quantum_simulator
-description: A sample command-line application.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+description: "A 3D Bloch Sphere and Quantum State Visualizer in Flutter."
+publish_to: 'none'
+version: 1.0.0+1
 
 environment:
-  sdk: ^3.13.0
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
 
-# Add regular dependencies here.
 dependencies:
-  path: ^1.9.0
+  flutter:
+    sdk: flutter
 
 dev_dependencies:
-  lints: ^6.0.0
-  test: ^1.25.6
+  flutter_test:
+    sdk: flutter
+  test: ^1.24.0
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true

@@ -24,6 +24,37 @@ class Complex {
         );
     }
 
+    // Format the complex number to concise strings (e.g. "0.707", "0.707i", "0.5+0.5i")
+    String toFormattedString({int fractionDigits = 3}) {
+        String formatValue(double val) {
+        // Check if it represents an integer value (e.g., 1.0 -> 1, 0.0 -> 0)
+        if ((val - val.roundToDouble()).abs() < 1e-6) {
+            return val.round().toString();
+        }
+        return val.toStringAsFixed(fractionDigits);
+        }
+
+        final isRealZero = (real - 0.0).abs() < 1e-6;
+        final isImagZero = (imag - 0.0).abs() < 1e-6;
+
+        if (isRealZero && isImagZero) return '0';
+
+        if (isImagZero) {
+        return formatValue(real);
+        }
+
+        if (isRealZero) {
+        return '${formatValue(imag)}i';
+        }
+
+        final rStr = formatValue(real);
+        final iVal = imag.abs();
+        final sign = imag > 0 ? '+' : '-';
+        final iStr = '${formatValue(iVal)}i';
+
+        return '$rStr $sign $iStr';
+    }
+
     @override
     String toString() {
         if (imag == 0) return real.toString();

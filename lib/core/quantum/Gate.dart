@@ -5,7 +5,7 @@ class QuantumGate {
 
     QuantumGate(this.matrix);
 
-    int get dimension => matrix.length;
+    int get length => matrix.length;
 
     // --- Factory Constructors ---
 
@@ -54,10 +54,19 @@ class QuantumGate {
         ]);
     }
 
+    factory QuantumGate.cnot() {
+        return QuantumGate([
+            [Complex(1, 0), Complex(0, 0), Complex(0, 0), Complex(0, 0)], 
+            [Complex(0, 0), Complex(1, 0), Complex(0, 0), Complex(0, 0)], 
+            [Complex(0, 0), Complex(0, 0), Complex(0, 0), Complex(1, 0)], 
+            [Complex(0, 0), Complex(0, 0), Complex(1, 0), Complex(0, 0)]
+        ]);
+    }
+
     // Tensor product of two gate matrices: A ⊗ B.
     QuantumGate tensorProduct(QuantumGate other) {
-        int dimA = dimension;
-        int dimB = other.dimension;
+        int dimA = length;
+        int dimB = other.length;
         int newDim = dimA * dimB;
 
         List<List<Complex>> newMatrix = List.generate(newDim, 

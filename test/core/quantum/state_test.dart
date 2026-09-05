@@ -67,12 +67,21 @@ void main() {
       final q1 = QuantumState([const Complex(0, 0), const Complex(1, 0)]);
       final combined = q0.tensorProduct(q1); // |01⟩
 
-      expect(combined.dimension, equals(4));
+      expect(combined.length, equals(4));
       expect(combined.amplitudes[0].magnitudeSquared, equals(0.0)); // |00⟩
       expect(combined.amplitudes[1].magnitudeSquared, equals(1.0)); // |01⟩
       expect(combined.amplitudes[2].magnitudeSquared, equals(0.0)); // |10⟩
       expect(combined.amplitudes[3].magnitudeSquared, equals(0.0)); // |11⟩
       expect(combined.isNormalized(), isTrue);
+    });
+
+    test('toDiracNotation formats |0⟩ state correctly', () {
+      final state0 = QuantumState([
+        const Complex(1.0, 0.0),
+        const Complex(0.0, 0.0),
+      ]);
+
+      expect(state0.toDiracNotation(), equals('|ψ⟩ = (1)|0⟩ + (0)|1⟩'));
     });
   });
 }
