@@ -15,11 +15,25 @@ class QuantumState {
     int get length => amplitudes.length;
 
     String toDiracNotation({int fractionDigits = 3}) {
+        // 1-qubit state
         if (length == 2) {
-            String c0 = amplitudes[0].toFormattedString(fractionDigits: fractionDigits);
-            String c1 = amplitudes[1].toFormattedString(fractionDigits: fractionDigits);
+            final c0 = amplitudes[0].toFormattedString(fractionDigits: fractionDigits);
+            final c1 = amplitudes[1].toFormattedString(fractionDigits: fractionDigits);
             return '|ψ⟩ = ($c0)|0⟩ + ($c1)|1⟩';
+
+        // 2-qubit state
+        } else if (length == 4) {
+            final terms = <String>[];
+            final basis = ['00', '01', '10', '11'];
+            for (int i = 0; i < 4; i++) {
+                if (amplitudes[i].magnitudeSquared > 1e-5) {
+                    terms.add('(${amplitudes[i].toFormattedString(fractionDigits: fractionDigits)})|${basis[i]}>');
+                }
+            }
+            if (terms.isEmpty) return '|ψ⟩ = 0';
+            return '|ψ⟩ = ${terms.join(' + ')}';
         }
+
         return toString();
     }
 
@@ -91,6 +105,27 @@ class QuantumState {
         double x = innerProduct(applyGate(xGate)).real;
         double y = innerProduct(applyGate(yGate)).real;
         double z = innerProduct(applyGate(zGate)).real;
+
+        return {'x': x, 'y': y, 'z': z};
+    }
+
+    Map<String, double> toQubitBlochCoordinates(int qubitIndex) {
+        if (length != 4 || (qubitIndex != 0 && qubitIndex != 1)) {
+            throw ArgumentError('Only support for 2-qubit states and index 0 or 1');
+        }
+
+        var xGate = QuantumGate.pauliX();
+        var yGate = QuantumGate.pauliY();
+        var zGate = QuantumGate.pauliZ();
+        var iGate = QuantumGate.identity();
+
+        var opX = qubitIndex == 0 ? xGate.tensorProduct(iGate) : iGate.tensorProduct(xGate);
+        var opY = qubitIndex == 0 ? yGate.tensorProduct(iGate) : iGate.tensorProduct(yGate);
+        var opZ = qubitIndex == 0 ? zGate.tensorProduct(iGate) : iGate.tensorProduct(zGate);
+
+        double x = innerProduct(applyGate(opX)).real;
+        double y = innerProduct(applyGate(opY)).real;
+        double z = innerProduct(applyGate(opZ)).real;
 
         return {'x': x, 'y': y, 'z': z};
     }
